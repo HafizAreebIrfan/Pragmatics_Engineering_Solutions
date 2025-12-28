@@ -1,15 +1,13 @@
 import { StyleSheet, View, Image } from 'react-native';
 import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
 import LottieView from 'lottie-react-native';
+import Eclipseshapetop from '../components/eclipseshapetop';
+import Eclipseshapebottom from '../components/eclipseshapebottom';
 
 const SplashScreenone = () => {
   return (
     <View style={styles.splashview}>
-      <LinearGradient
-        colors={['rgba(177, 177, 177, 0.15)', 'transparent']}
-        style={[styles.eclipse, { top: -207, left: -298 }]}
-      />
+      <Eclipseshapetop />
       <View style={styles.gifloader}>
         <LottieView
           style={styles.gif}
@@ -19,10 +17,7 @@ const SplashScreenone = () => {
           speed={0.9}
         />
       </View>
-      <LinearGradient
-        colors={['transparent', 'rgba(177, 177, 177, 0.15)']}
-        style={[styles.eclipse, { top: 547, left: 155 }]}
-      />
+      <Eclipseshapebottom />
     </View>
   );
 };
@@ -33,12 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#151314',
-  },
-  eclipse: {
-    position: 'absolute',
-    width: 549,
-    height: 549,
-    borderRadius: 250,
   },
   gifloader: {
     zIndex: 1,
