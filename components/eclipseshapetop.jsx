@@ -4,7 +4,7 @@ import { SvgXml } from 'react-native-svg';
 const Eclipseshapetop = () => {
   const topeclipse = `<svg width="393" height="568" viewBox="0 0 393 568" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g opacity="0.1" filter="url(#filter0_f_2_165)">
-      <circle cx="-23.5" cy="67.5" r="274.5" fill="#B1B1B1"/>
+      <circle cx="-23.5" cy="67.5" r="274.5" fill="#b1b1b1"/>
     </g>
     <defs>
       <filter id="filter0_f_2_165" x="-523.883" y="-432.883" width="1000.77" height="1000.77" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -25,8 +25,10 @@ const styles = StyleSheet.create({
   eclipsecontainer: {
     position: 'absolute',
     top: 0,
+    left: -110,
     width: 549, 
     height: 549,
+    zIndex: 1,
   },
 });
 

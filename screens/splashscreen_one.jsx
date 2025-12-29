@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 import LottieView from 'lottie-react-native';
+import { useNavigation } from '@react-navigation/native';
 import Eclipseshapetop from '../components/eclipseshapetop';
 import Eclipseshapebottom from '../components/eclipseshapebottom';
-import { useNavigation } from '@react-navigation/native';
 
 const SplashScreenone = () => {
   const navigation = useNavigation();

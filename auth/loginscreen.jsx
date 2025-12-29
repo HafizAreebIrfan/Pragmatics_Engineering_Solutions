@@ -32,12 +32,15 @@ export default function Loginscreen() {
       }, 3000);
       return () => clearTimeout(timer);
     } else {
-      Alert.alert('Not authenticated', 'Email or password is incorrect or not filled');
+      Alert.alert(
+        'Not authenticated',
+        'Email or password is incorrect or not filled',
+      );
     }
   };
   return (
     <SafeAreaView style={styles.loginview}>
-      <Eclipseshapetop />
+      <Eclipseshapetop pointerEvents="none"/>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1, paddingTop: 100, paddingBottom: 50 }}
@@ -123,7 +126,7 @@ export default function Loginscreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <Eclipseshapebottom />
+      <Eclipseshapebottom pointerEvents="none"/>
     </SafeAreaView>
   );
 }

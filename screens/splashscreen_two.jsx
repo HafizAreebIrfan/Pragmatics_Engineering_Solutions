@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
-import Eclipseshapetop from '../components/eclipseshapetop';
-import Eclipseshapebottom from '../components/eclipseshapebottom';
 import { getFontFamily } from '../assets/utils/fontfamily';
 import { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Eclipseshapetop from '../components/eclipseshapetop';
+import Eclipseshapebottom from '../components/eclipseshapebottom';
 
 export default function SplashScreentwo() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace('Loginscreen');
@@ -16,7 +16,7 @@ export default function SplashScreentwo() {
   }, []);
   return (
     <View style={styles.splashview}>
-      <Eclipseshapetop />
+      <Eclipseshapetop/>
       <View style={styles.splashlogo}>
         <Image
           style={styles.logo}
