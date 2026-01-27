@@ -145,8 +145,6 @@ const styles = StyleSheet.create({
   dashboardview: {
     flex: 1,
     position: 'relative',
-    borderWidth: 3,
-    borderColor: '#fff'
   },
   mainview: {
     gap: 20,
