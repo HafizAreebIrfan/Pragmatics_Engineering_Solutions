@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pod install)",
+      "Bash(bundle install:*)",
+      "Bash(bundle exec pod install:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss init)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}
