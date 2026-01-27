@@ -1,6 +1,6 @@
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import React, {useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, IconButton, Searchbar } from 'react-native-paper';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
@@ -11,10 +11,12 @@ import Themestore from '../store/themestore';
 const Dashboardscreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const theme = Themestore(state => state.theme);
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={[styles.dashboardview, {backgroundColor: theme.colors.background}]}>
+    <SafeAreaView edges={['top']} style={[styles.dashboardview, {backgroundColor: theme.colors.background}]}>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{paddingBottom: insets.bottom + 12}}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -23,6 +25,7 @@ const Dashboardscreen = () => {
         <View style={styles.searchbarcontainer}>
           <Searchbar
             placeholder="Search"
+            rippleColor={'transparent'}
             placeholderTextColor={theme.colors.text}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -31,7 +34,7 @@ const Dashboardscreen = () => {
                 iconStyle="solid"
                 color={theme.colors.text}
                 size={20}
-                style={{ width: 20, height: 20 }}
+                style={{ width: 20, height: 20}}
                 name="magnifying-glass"
               />
             )}
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 100,
     borderWidth: 1,
-    paddingHorizontal: 12,
+    paddingHorizontal: 20,
     height: 44,
   },
   searchtext: {
@@ -199,7 +202,6 @@ const styles = StyleSheet.create({
   companydatatable: {
     gap: 20,
     marginTop: 12,
-    marginBottom: 27,
   },
 });
 

@@ -123,7 +123,7 @@ const Tabbar: React.FC = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: [styles.tabBar, { backgroundColor: theme.colors.background, height: 64 + insets.bottom, paddingBottom: insets.bottom }],
+        tabBarStyle: [styles.tabBar, { backgroundColor: theme.colors.background, height: 80 + insets.bottom, paddingBottom: insets.bottom, paddingTop: 10 }],
         tabBarShowLabel: true,
         tabBarLabelStyle: [styles.labelStyle, { color: theme.colors.title }],
       }}
@@ -226,7 +226,11 @@ export default Tabbar;
 const styles = StyleSheet.create({
   tabBar: {
     borderTopWidth: 0,
-    
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
   },
   labelStyle: {
     fontSize: 10,
