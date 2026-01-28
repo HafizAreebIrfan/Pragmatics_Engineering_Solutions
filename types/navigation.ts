@@ -3,4 +3,8 @@ export type RootStackParamList = {
     SplashTwo: undefined;
     Loginscreen: undefined;
     Tabbar: undefined;
+    Editpersonalinfo: undefined;
+    Editpassword: undefined;
+    Deactivateaccount: undefined;
+    Termsandcondition: undefined
   };

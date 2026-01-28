@@ -9,10 +9,17 @@ import Themestore from './store/themestore';
 import { StatusBar } from 'react-native';
 import { darkTheme } from './theme/color';
 import Tabbar from './components/tabbar';
+import Editpersonalinfo from './screens/editpersonalinfo';
+import Editpassword from './screens/editpassword';
+import Deactivateaccount from './screens/deactivateaccount';
+import Termsandcondition from './screens/termsandcondition';
+import Headerleft from './components/headerleftsecondary';
+import { getFontFamily } from './assets/utils/fontfamily';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const App: React.FC = () => {
   const theme = Themestore(state => state.theme);
+
   return (
     <>
       <StatusBar
@@ -20,7 +27,7 @@ const App: React.FC = () => {
         backgroundColor={theme.colors.background}
         translucent={false}
       />
-      
+
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -45,10 +52,103 @@ const App: React.FC = () => {
             component={Loginscreen}
           />
           <Stack.Screen
-            options={{ gestureEnabled: false}}
+            options={{ gestureEnabled: false }}
             name="Tabbar"
             component={Tabbar}
           />
+          <Stack.Screen
+            options={{
+              gestureEnabled: false,
+              headerShown: true,
+              headerTitle: 'Personal Information',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: theme.colors.overlaybackground,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.colors.bordercolor,
+              },
+              headerTitleStyle: {
+                fontSize: 12,
+                fontFamily: getFontFamily('true', 'medium'),
+                lineHeight: 18,
+                color: theme.colors.title,
+                paddingTop: 8,
+              },
+              headerLeft: () => <Headerleft />
+            }}
+            name="Editpersonalinfo"
+            component={Editpersonalinfo}
+          />
+          <Stack.Screen
+            options={{
+              gestureEnabled: false,
+              headerShown: true,
+              headerTitle: 'Password',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: theme.colors.overlaybackground,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.colors.bordercolor,
+              },
+              headerTitleStyle: {
+                fontSize: 12,
+                fontFamily: getFontFamily('true', 'medium'),
+                lineHeight: 18,
+                color: theme.colors.title,
+                paddingTop: 8,
+              },
+              headerLeft: () => <Headerleft />
+            }}
+            name="Editpassword"
+            component={Editpassword}
+          />
+          <Stack.Screen
+            options={{
+              gestureEnabled: false,
+              headerShown: true,
+              headerTitle: 'Account Deactivate',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: theme.colors.overlaybackground,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.colors.bordercolor,
+              },
+              headerTitleStyle: {
+                fontSize: 12,
+                fontFamily: getFontFamily('true', 'medium'),
+                lineHeight: 18,
+                color: theme.colors.title,
+                paddingTop: 8,
+              },
+              headerLeft: () => <Headerleft />
+            }}
+            name="Deactivateaccount"
+            component={Deactivateaccount}
+          />
+          <Stack.Screen
+            options={{
+              gestureEnabled: false,
+              headerShown: true,
+              headerTitle: 'Terms and Condition',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: theme.colors.overlaybackground,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.colors.bordercolor,
+              },
+              headerTitleStyle: {
+                fontSize: 12,
+                fontFamily: getFontFamily('true', 'medium'),
+                lineHeight: 18,
+                color: theme.colors.title,
+                paddingTop: 8,
+              },
+              headerLeft: () => <Headerleft />
+            }}
+            name="Termsandcondition"
+            component={Termsandcondition}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>
     </>

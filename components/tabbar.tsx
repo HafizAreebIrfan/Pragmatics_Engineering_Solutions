@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { getFontFamily } from '../assets/utils/fontfamily';
@@ -7,79 +7,11 @@ import Dashboardscreen from '../screens/dashboardscreen';
 import { Image } from 'react-native';
 import Themestore from '../store/themestore';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-function Headerimage(): React.JSX.Element {
-  return (
-    <Image
-      style={{ width: 40, height: 27 }}
-      source={require('../assets/headerlogo.png')}
-    />
-  );
-}
-function Headerleft(): React.JSX.Element {
-  const theme = Themestore(state => state.theme);
-  return (
-    <TouchableOpacity onPress={() => Alert.alert('Drawer will be here')}>
-      <FontAwesome6
-        name="align-left"
-        style={{
-          top: 8,
-          gap: 7.5,
-          width: 20,
-          height: 20,
-          paddingRight: 2,
-          marginLeft: 12,
-        }}
-        color={theme.colors.iconsecondary}
-        size={20}
-        iconStyle="solid"
-      />
-    </TouchableOpacity>
-  );
-}
-function HeaderRight(): React.JSX.Element {
-  const theme = Themestore(state => state.theme);
-  const toggleTheme = Themestore((state) => state.toggleTheme);
-  const mode = Themestore((state) => state.mode);
-  return (
-    <>
-      <TouchableOpacity
-        onPress={() => Alert.alert('Notification screen will be open')}
-      >
-        <FontAwesome6
-          name="bell"
-          style={{
-            top: 7,
-            gap: 10,
-            width: 20,
-            height: 20,
-            marginRight: 12,
-          }}
-          color={theme.colors.iconsecondary}
-          size={20}
-          iconStyle="regular"
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={toggleTheme}
-      >
-        <FontAwesome6
-          name={mode === 'dark' ? 'sun' : 'moon'}
-          style={{
-            top: 7,
-            gap: 10,
-            width: 20,
-            height: 20,
-            marginRight: 12,
-          }}
-          color={theme.colors.iconsecondary}
-          size={20}
-          iconStyle="regular"
-        />
-      </TouchableOpacity>
-    </>
-  );
-}
+import Profilescreen from '../screens/profilescreen';
+import Headerimage from './headercenterprimary';
+import HeaderRight from './headerrightprimary';
+import Headerleft from './headerleftprimary';
+// import { UserprofileStore } from '../store/profilestore';
 
 const AnalyticsScreen: React.FC = () => {
   const theme = Themestore(state => state.theme);
@@ -105,19 +37,13 @@ const SettingScreen: React.FC = () => {
     </View>
   )
 };
-const ProfileScreen: React.FC = () => {
-  const theme = Themestore(state => state.theme);
-  return (
-    <View style={[styles.placeholder, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.text, { color: theme.colors.title }]}>Profile</Text>
-    </View>
-  )
-};
+
 
 const Tabbar: React.FC = () => {
   const Tab = createBottomTabNavigator();
   const theme = Themestore(state => state.theme);
   const insets = useSafeAreaInsets();
+  // const profileimageicon = UserprofileStore((state) => state.profileImageUri);
 
   return (
     <Tab.Navigator
@@ -165,13 +91,32 @@ const Tabbar: React.FC = () => {
         name="Analytics"
         component={AnalyticsScreen}
         options={{
+          headerShown: true,
+          headerTitle: () => <Headerimage />,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+            borderWidth: 1,
+            borderColor: theme.colors.bordercolor,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.colors.bordercolor,
+          },
+          headerLeft: () => <Headerleft />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused }) => (
-            <FontAwesome6
-              name="chart-line"
-              iconStyle="solid"
-              size={20}
-              color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
-            />
+            <View
+              style={[
+                styles.iconContainer,
+                focused && { backgroundColor: theme.colors.activetintcolor },
+              ]}
+            >
+              <FontAwesome6
+                name="chart-line"
+                iconStyle="solid"
+                size={20}
+                color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
+              />
+            </View>
           ),
         }}
       />
@@ -179,13 +124,32 @@ const Tabbar: React.FC = () => {
         name="Add"
         component={AddScreen}
         options={{
+          headerShown: true,
+          headerTitle: () => <Headerimage />,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+            borderWidth: 1,
+            borderColor: theme.colors.bordercolor,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.colors.bordercolor,
+          },
+          headerLeft: () => <Headerleft />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused }) => (
-            <FontAwesome6
-              name="square-plus"
-              iconStyle="regular"
-              size={24}
-              color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
-            />
+            <View
+              style={[
+                styles.iconContainer,
+                focused && { backgroundColor: theme.colors.activetintcolor },
+              ]}
+            >
+              <FontAwesome6
+                name="square-plus"
+                iconStyle="regular"
+                size={24}
+                color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
+              />
+            </View>
           ),
         }}
       />
@@ -193,27 +157,69 @@ const Tabbar: React.FC = () => {
         name="Setting"
         component={SettingScreen}
         options={{
+          headerShown: true,
+          headerTitle: () => <Headerimage />,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+            borderWidth: 1,
+            borderColor: theme.colors.bordercolor,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.colors.bordercolor,
+          },
+          headerLeft: () => <Headerleft />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused }) => (
-            <FontAwesome6
-              name="gear"
-              iconStyle="solid"
-              size={20}
-              color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
-            />
+            <View
+              style={[
+                styles.iconContainer,
+                focused && { backgroundColor: theme.colors.activetintcolor },
+              ]}
+            >
+              <FontAwesome6
+                name="gear"
+                iconStyle="solid"
+                size={20}
+                color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
+              />
+            </View>
           ),
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={Profilescreen}
         options={{
+          headerShown: true,
+          headerTitle: () => <Headerimage />,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+            borderWidth: 1,
+            borderColor: theme.colors.bordercolor,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.colors.bordercolor,
+          },
+          headerLeft: () => <Headerleft />,
+          headerRight: () => <HeaderRight />,
           tabBarIcon: ({ focused }) => (
-            <FontAwesome6
-              name="user"
-              iconStyle="regular"
-              size={20}
-              color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
-            />
+            <View
+              style={[
+                styles.iconContainer,
+                focused && { backgroundColor: theme.colors.activetintcolor },
+              ]}
+            >
+              {/* {profileimageicon ? */}
+                <Image style={{ width: 24, height: 24, borderRadius: 100, borderWidth: 1, borderColor: theme.colors.tabbarprofileiconborder }} source={require('../assets/profiledummy1.jpg')} />
+                 {/* : */}
+                {/* // <FontAwesome6
+                //   name="user"
+                //   iconStyle="regular"
+                //   size={20}
+                //   color={focused ? theme.colors.tabbariconactive : theme.colors.tabbariconinactive}
+                // /> */}
+               {/* } */}
+            </View>
           ),
         }}
       />
