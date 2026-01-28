@@ -5,17 +5,12 @@ import { RootStackParamList } from './types';
 import { AuthNavigator } from './AuthNavigator';
 import { MainNavigator } from './MainNavigator';
 import { SiteNavigator } from './SiteNavigator';
-
-// TODO: Replace with actual auth state from Zustand store
-const useAuth = () => {
-  // Temporary: always authenticated for development
-  return { isAuthenticated: true, isLoading: false };
-};
+import { useAuthStore } from '../store';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
   return (
     <NavigationContainer>

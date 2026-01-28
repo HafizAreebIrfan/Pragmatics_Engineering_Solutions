@@ -4,6 +4,7 @@ import { View, ViewProps, TouchableOpacity, TouchableOpacityProps } from 'react-
 interface CardProps extends ViewProps {
   children: React.ReactNode;
   variant?: 'default' | 'elevated';
+  onPress?: () => void;
 }
 
 interface PressableCardProps extends TouchableOpacityProps {
@@ -14,14 +15,28 @@ interface PressableCardProps extends TouchableOpacityProps {
 export const Card: React.FC<CardProps> = ({
   children,
   variant = 'default',
+  onPress,
   className,
   ...props
 }) => {
   const baseStyles = 'bg-background-secondary rounded-xl p-4';
   const variantStyles = variant === 'elevated' ? 'shadow-lg' : '';
+  const combinedClassName = `${baseStyles} ${variantStyles} ${className || ''}`;
+
+  if (onPress) {
+    return (
+      <TouchableOpacity
+        className={combinedClassName}
+        onPress={onPress}
+        activeOpacity={0.7}
+      >
+        {children}
+      </TouchableOpacity>
+    );
+  }
 
   return (
-    <View className={`${baseStyles} ${variantStyles} ${className || ''}`} {...props}>
+    <View className={combinedClassName} {...props}>
       {children}
     </View>
   );

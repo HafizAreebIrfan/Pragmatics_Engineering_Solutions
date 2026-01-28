@@ -1,9 +1,23 @@
-module.exports = {
-  presets: [
+module.exports = function(api) {
+  api.cache(true);
+
+  const isTest = process.env.NODE_ENV === 'test';
+
+  const presets = [
     ['module:@react-native/babel-preset', { unstable_transformProfile: 'hermes-stable' }],
-    'nativewind/babel',
-  ],
-  plugins: [
+  ];
+
+  // Only include nativewind/babel preset when NOT in test environment
+  if (!isTest) {
+    presets.push('nativewind/babel');
+  }
+
+  const plugins = [
     'react-native-reanimated/plugin',
-  ],
+  ];
+
+  return {
+    presets,
+    plugins,
+  };
 };

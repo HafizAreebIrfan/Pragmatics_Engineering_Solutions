@@ -1,36 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, Text } from 'react-native';
 import { SiteStackParamList } from './types';
-
-// Placeholder screens - will be replaced with actual implementations
-const SiteDetailScreen = ({ route }: any) => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-text-primary text-2xl">Site Detail</Text>
-    <Text className="text-text-secondary mt-2">{route.params?.siteName}</Text>
-  </View>
-);
-
-const LiveParametersScreen = ({ route }: any) => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-text-primary text-2xl">Live Parameters</Text>
-    <Text className="text-text-secondary mt-2">{route.params?.siteName}</Text>
-  </View>
-);
-
-const DevicesScreen = ({ route }: any) => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-text-primary text-2xl">Devices</Text>
-    <Text className="text-text-secondary mt-2">{route.params?.siteName}</Text>
-  </View>
-);
-
-const AlarmManagementScreen = ({ route }: any) => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-text-primary text-2xl">Alarm Management</Text>
-    <Text className="text-text-secondary mt-2">{route.params?.siteName}</Text>
-  </View>
-);
+import {
+  SiteDetailScreen,
+  LiveParametersScreen,
+  DevicesScreen,
+  AlarmManagementScreen,
+} from '../screens/site';
 
 const Stack = createNativeStackNavigator<SiteStackParamList>();
 

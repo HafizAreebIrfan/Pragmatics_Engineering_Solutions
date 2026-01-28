@@ -1,28 +1,11 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthStackParamList } from './types';
-
-// Placeholder screens - will be replaced with actual implementations
-import { View, Text } from 'react-native';
-
-const SplashLoadingScreen = () => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-brand-primary text-2xl">Loading...</Text>
-  </View>
-);
-
-const SplashBrandScreen = () => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-brand-primary text-3xl font-bold">PES</Text>
-    <Text className="text-text-primary mt-4">Pragmatics Engineering Solution</Text>
-  </View>
-);
-
-const LoginScreen = () => (
-  <View className="flex-1 bg-background-primary items-center justify-center">
-    <Text className="text-text-primary text-2xl">Login Screen</Text>
-  </View>
-);
+import {
+  SplashLoadingScreen,
+  SplashBrandScreen,
+  LoginScreen,
+} from '../screens/auth';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 

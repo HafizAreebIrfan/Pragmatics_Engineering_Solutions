@@ -3,7 +3,8 @@ import { TouchableOpacity, View, Text, TouchableOpacityProps } from 'react-nativ
 
 interface CheckboxProps extends Omit<TouchableOpacityProps, 'onPress'> {
   checked: boolean;
-  onToggle: (checked: boolean) => void;
+  onToggle?: (checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
   label?: string;
   disabled?: boolean;
 }
@@ -11,15 +12,23 @@ interface CheckboxProps extends Omit<TouchableOpacityProps, 'onPress'> {
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onToggle,
+  onChange,
   label,
   disabled = false,
   className,
   ...props
 }) => {
+  const handlePress = () => {
+    if (disabled) return;
+    const newValue = !checked;
+    onToggle?.(newValue);
+    onChange?.(newValue);
+  };
+
   return (
     <TouchableOpacity
       className={`flex-row items-center ${disabled ? 'opacity-50' : ''} ${className || ''}`}
-      onPress={() => !disabled && onToggle(!checked)}
+      onPress={handlePress}
       activeOpacity={0.7}
       disabled={disabled}
       {...props}
