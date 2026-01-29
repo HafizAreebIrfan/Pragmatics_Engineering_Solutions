@@ -66,10 +66,10 @@ const Profilescreen: React.FC = () => {
                                 style={{
                                     width: 80, height: 80, borderRadius: 100,
                                     borderWidth: 2,
-                                    borderColor: theme.colors.profilecardborder,
+                                    borderColor: theme.colors.cardborder,
                                 }}
                             />
-                            <View style={[styles.editimage, { backgroundColor: theme.colors.iconbuttonbg, borderWidth: 1, borderColor: theme.colors.profilecardborder }]}>
+                            <View style={[styles.editimage, { backgroundColor: theme.colors.iconbuttonbg, borderWidth: 1, borderColor: theme.colors.cardborder }]}>
                                 <FontAwesome6
                                     name='pen-to-square'
                                     iconStyle='solid'
@@ -87,7 +87,7 @@ const Profilescreen: React.FC = () => {
                     </View>
                 </View>
                 <View style={[styles.personalinfobox, { borderColor: theme.colors.bordercolor }]}>
-                    <View style={[styles.personalinfoboxheader, { backgroundColor: theme.colors.profilecardheader }]}>
+                    <View style={[styles.personalinfoboxheader, { backgroundColor: theme.colors.cardheader }]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                             <Text style={[styles.personalinfoboxheadertitile, { color: theme.colors.title }]}>Personal Information</Text>
                             <Text style={[styles.editpersonalinfo, { color: theme.colors.highlightedsecondary }]} onPress={handleeditpersonalinfo}>Edit</Text>
@@ -131,7 +131,7 @@ const Profilescreen: React.FC = () => {
                     </View>
                 </View>
                 <View style={[styles.securitybox, { borderColor: theme.colors.bordercolor }]}>
-                    <View style={[styles.securityboxheader, { backgroundColor: theme.colors.profilecardheader }]}>
+                    <View style={[styles.securityboxheader, { backgroundColor: theme.colors.cardheader }]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                             <Text style={[styles.securityboxheadertitile, { color: theme.colors.title }]}>Security</Text>
                             {/* <Text style={[styles.editsecurityinfo, { color: theme.colors.highlightedsecondary }]}>Edit</Text> */}
@@ -185,7 +185,7 @@ const Profilescreen: React.FC = () => {
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.legalbox, { borderColor: theme.colors.bordercolor }]}>
-                    <View style={[styles.legalboxheader, { backgroundColor: theme.colors.profilecardheader }]}>
+                    <View style={[styles.legalboxheader, { backgroundColor: theme.colors.cardheader }]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                             <Text style={[styles.legalboxheadertitile, { color: theme.colors.title }]}>Legal</Text>
                             {/* <Text style={[styles.editlegalinfo, { color: theme.colors.highlightedsecondary }]}>Edit</Text> */}

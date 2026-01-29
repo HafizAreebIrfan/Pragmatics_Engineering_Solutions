@@ -7,7 +7,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
+  // Alert,
   ImageStyle,
 } from 'react-native';
 import { getFontFamily } from '../assets/utils/fontfamily';
@@ -28,18 +28,18 @@ export default function Loginscreen() {
   const theme = Themestore(state => state.theme);
 
   const handlelogin = (): void => {
-    const adminemail: string = 'pes@pes.com';
-    const adminpass: string = '123456';
-    if (adminemail === email && adminpass === password) {
-      setTimeout(() => {
+    // const adminemail: string = 'pes@pes.com';
+    // const adminpass: string = '123456';
+    // if (adminemail === email && adminpass === password) {
+      // setTimeout(() => {
         navigation.replace('Tabbar');
-      }, 3000);
-    } else {
-      Alert.alert(
-        'Not authenticated',
-        'Email or password is incorrect or not filled',
-      );
-    }
+      // }, 3000);
+    // } else {
+    //   Alert.alert(
+    //     'Not authenticated',
+    //     'Email or password is incorrect or not filled',
+    //   );
+    // }
   };
   return (
     <SafeAreaView style={[styles.loginview, {backgroundColor: theme.colors.background}]}>

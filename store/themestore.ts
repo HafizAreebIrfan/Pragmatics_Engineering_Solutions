@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { lightTheme, darkTheme, type Theme } from '../theme/color';
 import { Appearance, Platform } from 'react-native';
-import { MMKVLoader } from 'react-native-mmkv-storage';
+import { createMMKV } from 'react-native-mmkv';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 type ThemeMode = 'light' | 'dark';
@@ -13,7 +13,7 @@ interface ThemeState {
   setThemeMode: (mode: ThemeMode) => void;
 }
 
-const storage = new MMKVLoader().initialize();
+const storage = createMMKV();
 const STORAGE_KEY = 'theme';
 
 const getSystemTheme = (): ThemeMode => Appearance.getColorScheme() === 'dark' ? 'dark' : 'light';
@@ -42,7 +42,7 @@ const Themestore = create<ThemeState>(set => ({
     toggleTheme: () => {
         set((state)=>{
           const newtheme = state.mode === 'light' ? 'dark' : 'light';
-          storage.setString(STORAGE_KEY, newtheme);
+          storage.set(STORAGE_KEY, newtheme);
           updateNavBar(newtheme);
           return{
             mode: newtheme,
@@ -51,7 +51,7 @@ const Themestore = create<ThemeState>(set => ({
         });
     },
     setThemeMode: (mode: ThemeMode) => {
-        storage.setString(STORAGE_KEY, mode);
+        storage.set(STORAGE_KEY, mode);
         updateNavBar(mode);
         set({
             mode,

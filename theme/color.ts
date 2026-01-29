@@ -25,8 +25,8 @@ export interface ThemeColors {
   tabbariconinactive: string;
   tabbarprofileiconborder: string;
   iconsecondary: string;
-  profilecardborder: string;
-  profilecardheader: string;
+  cardborder: string;
+  cardheader: string;
   warningicon: string;
   warningbtnbg: string;
   warningbtnicon: string;
@@ -36,6 +36,10 @@ export interface ThemeColors {
   headerstatusiconbg: string;
   headeractivestatusicon: string;
   headerinactivestatusicon: string;
+  piechartcolor1: string;
+  piechartcolor2: string;
+  piechartcolor3: string;
+  piechartcolor4: string;
 }
 
 export interface Theme {
@@ -70,8 +74,8 @@ export const lightTheme: Theme = {
     tabbariconinactive: '#000000',
     tabbarprofileiconborder: '#000000',
     iconsecondary: '#000000',
-    profilecardborder: '#000000',
-    profilecardheader: '#ebebeb',
+    cardborder: '#000000',
+    cardheader: '#ebebeb',
     warningicon: '#ab1e3e',
     warningbtnbg: '#ab1e3e',
     warningbtnicon: '#ffffff',
@@ -81,6 +85,10 @@ export const lightTheme: Theme = {
     headerstatusiconbg: '#05c80e',
     headeractivestatusicon: '#3ad048',
     headerinactivestatusicon: '#000000',
+    piechartcolor1: '#3a5fd0',
+    piechartcolor2: '#118ad6',
+    piechartcolor3: '#d03a3a',
+    piechartcolor4: '#3ad04b',
   },
 };
 
@@ -112,8 +120,8 @@ export const darkTheme: Theme = {
     tabbariconinactive: '#ffffff',
     tabbarprofileiconborder: '#08820e',
     iconsecondary: '#ffffff',
-    profilecardborder: '#ffffff',
-    profilecardheader: '#171717',
+    cardborder: '#ffffff',
+    cardheader: '#171717',
     warningicon: '#ab1e3e',
     warningbtnbg: '#ab1e3e',
     warningbtnicon: '#ffffff',
@@ -123,5 +131,9 @@ export const darkTheme: Theme = {
     headerstatusiconbg: '#05c80e',
     headeractivestatusicon: '#3ad048',
     headerinactivestatusicon: '#1b1a1b', 
+    piechartcolor1: '#3a5fd0',
+    piechartcolor2: '#118ad6',
+    piechartcolor3: '#d03a3a',
+    piechartcolor4: '#3ad04b',
   },
 };
