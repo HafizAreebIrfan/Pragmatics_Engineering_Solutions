@@ -14,6 +14,7 @@ module.exports = function(api) {
 
   const plugins = [
     'react-native-reanimated/plugin',
+    '@babel/plugin-transform-export-namespace-from',
   ];
 
   return {
