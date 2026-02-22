@@ -100,6 +100,8 @@ const Linechart: React.FC = () => {
         height={220}
         spacing={35}
         initialSpacing={10}
+        scrollAnimation={true}
+        focusEnabled={true}
         maxValue={100}
         noOfSections={5}
         yAxisTextStyle={{ color: theme.colors.text, fontSize: 10 }}
@@ -124,7 +126,8 @@ const Linechart: React.FC = () => {
           pointerLabelHeight: 90,
           activatePointersOnLongPress: true,
           autoAdjustPointerLabelPosition: false,
-          pointerLabelComponent: (items: any) => {
+          pointerLabelComponent: 
+          (items: any) => {
             const isfirstitem = items[0]?.index === 0;
             return (
               <View

@@ -65,6 +65,8 @@ export interface ThemeColors {
   searchsitesimgborder: string;
   searchsitesimgbg: string;
   rangeslidertext: string;
+  nodechartedgegreen: string;
+  nodechartedgeblue: string;
 }
 
 
@@ -140,6 +142,8 @@ export const lightTheme: Theme = {
     searchsitesimgborder: '#303030',
     searchsitesimgbg: '#ffffff',
     rangeslidertext: '#000000',
+    nodechartedgegreen: '#4caf50',
+    nodechartedgeblue: '#3a5fd0',
   },
 };
 
@@ -211,5 +215,7 @@ export const darkTheme: Theme = {
     searchsitesimgborder: '#303030',
     searchsitesimgbg: '#ffffff',
     rangeslidertext: '#000000',
+    nodechartedgegreen: '#4caf50',
+    nodechartedgeblue: '#3a5fd0',
   },
 };

@@ -6,72 +6,58 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Themestore from '../../../store/themestore';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { getFontFamily } from '../../../assets/utils/fontfamily';
 import DatePicker from 'react-native-date-picker';
 import Piechart from '../charts/piechart';
-import Nodechart from '../charts/nodechart';
-import { scheduleOnRN } from 'react-native-worklets';
-import {
-  Gesture,
-  GestureDetector,
-  GestureHandlerRootView,
-} from 'react-native-gesture-handler';
+// import Nodechart from '../charts/nodechart';
+import Flowchart from '../charts/flowchart';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Summaryblock: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState<boolean>(false);
   const theme = Themestore(state => state.theme);
   const mode = Themestore(state => state.mode);
-
-  const [zoomLevel, setZoomLevel] = useState(0.8);
   const [isLocked, setIsLocked] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
-  const startZoom = useRef(0.8);
+  const scale = useSharedValue(1);
+  const savedScale = useSharedValue(1);
   const MIN_ZOOM = 0.8;
   const MAX_ZOOM = 2.0;
-
-  const pinchGesture = Gesture.Pinch()
-    .onStart(() => {
-      startZoom.current = zoomLevel;
-    })
-    .onUpdate(event => {
-      const nextScale = startZoom.current * event.scale;
-      const clamped = Math.min(Math.max(nextScale, MIN_ZOOM), MAX_ZOOM);
-      scheduleOnRN(setZoomLevel, clamped);
-    })
-    .runOnJS(true);
-  const handlePinchSync = (newZoom: number) => {
-    if (newZoom >= 0.8 && newZoom <= 2.0) {
-      setZoomLevel(newZoom);
-    }
-  };
+  const [currentZoom, setCurrentZoom] = useState<any>(1);
 
   const handleZoomIn = () => {
-    setZoomLevel(prev => {
-      const next = prev + 0.2;
-      return next <= 2.0 ? next : 2.0;
-    });
+    if (isLocked) return;
+    const newScale = Math.min(savedScale.value + 0.2, MAX_ZOOM);
+    scale.value = withTiming(newScale);
+    savedScale.value = newScale;
   };
-
   const handleZoomOut = () => {
-    setZoomLevel(prev => {
-      const next = prev - 0.2;
-      return next >= 0.8 ? next : 0.8;
-    });
+    if (isLocked) return;
+    const newScale = Math.max(savedScale.value - 0.2, MIN_ZOOM);
+    scale.value = withTiming(newScale);
+    savedScale.value = newScale;
   };
   const toggleLock = () => setIsLocked(!isLocked);
+  const isZoomInDisabled = isLocked || currentZoom >= MAX_ZOOM - 0.001;
+
+  const isZoomOutDisabled = isLocked || currentZoom <= MIN_ZOOM + 0.001;
 
   const renderChart = (isFull: boolean) => {
     return (
       <View style={{ flex: 1 }}>
-        <Nodechart
-          zoom={zoomLevel}
-          roamType={isLocked ? true : 'move'}
+        <Flowchart
           isFullScreen={isFull}
-          onZoomChange={handlePinchSync}
+          islocked={isLocked}
+          scale={scale}
+          savedScale={savedScale}
+          MAX_ZOOM={MAX_ZOOM}
+          MIN_ZOOM={MIN_ZOOM}
+          setCurrentZoom={setCurrentZoom}
         />
       </View>
     );
@@ -311,11 +297,7 @@ const Summaryblock: React.FC = () => {
           },
         ]}
       >
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <GestureDetector gesture={pinchGesture}>
-            {renderChart(false)}
-          </GestureDetector>
-        </GestureHandlerRootView>
+        {renderChart(false)}
 
         <View
           style={{
@@ -345,7 +327,7 @@ const Summaryblock: React.FC = () => {
             }}
           >
             <TouchableOpacity
-              disabled={zoomLevel === MAX_ZOOM || isLocked === true}
+              disabled={isZoomInDisabled}
               style={{ padding: 8 }}
               onPress={handleZoomIn}
             >
@@ -353,9 +335,9 @@ const Summaryblock: React.FC = () => {
                 iconStyle="solid"
                 name="plus"
                 size={12}
-                disabled={zoomLevel === MAX_ZOOM || isLocked === true}
+                disabled={isZoomInDisabled}
                 color={
-                  zoomLevel === MAX_ZOOM || isLocked === true
+                  isZoomInDisabled
                     ? theme.colors.inputborder
                     : theme.colors.iconsecondary
                 }
@@ -363,7 +345,7 @@ const Summaryblock: React.FC = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              disabled={zoomLevel === MIN_ZOOM || isLocked === true}
+              disabled={isZoomOutDisabled}
               style={{ padding: 8 }}
               onPress={handleZoomOut}
             >
@@ -371,9 +353,9 @@ const Summaryblock: React.FC = () => {
                 iconStyle="solid"
                 name="minus"
                 size={12}
-                disabled={zoomLevel === MIN_ZOOM || isLocked === true}
+                disabled={isZoomOutDisabled}
                 color={
-                  zoomLevel === MIN_ZOOM || isLocked === true
+                  isZoomOutDisabled
                     ? theme.colors.inputborder
                     : theme.colors.iconsecondary
                 }
@@ -612,133 +594,131 @@ const Summaryblock: React.FC = () => {
         statusBarTranslucent={true}
         onRequestClose={() => setFullScreen(false)}
       >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: theme.colors.overlaybackground,
-          }}
-        >
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <GestureDetector gesture={pinchGesture}>
-              <View style={{ flex: 1 }}>{renderChart(true)}</View>
-            </GestureDetector>
-          </GestureHandlerRootView>
-          <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-            <TouchableOpacity
-              onPress={() => setFullScreen(false)}
-              style={{
-                position: 'absolute',
-                top: 50,
-                right: 20,
-                backgroundColor: theme.colors.overlaybackground,
-                padding: 6,
-                borderRadius: 100,
-              }}
-            >
-              <FontAwesome6
-                iconStyle="solid"
-                name="xmark"
-                size={12}
-                color={theme.colors.title}
-              />
-            </TouchableOpacity>
-
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 15,
-                left: 15,
-                right: 15,
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                pointerEvents: 'box-none',
-              }}
-            >
-              <View
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: theme.colors.overlaybackground,
+            }}
+          >
+            <View style={{ flex: 1 }}>{renderChart(true)}</View>
+            <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+              <TouchableOpacity
+                onPress={() => setFullScreen(false)}
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor:
-                    mode === 'dark'
-                      ? 'rgba(26,26,26,0.8)'
-                      : 'rgba(245,245,245,0.5)',
+                  position: 'absolute',
+                  top: 50,
+                  right: 20,
+                  backgroundColor: theme.colors.overlaybackground,
+                  padding: 6,
                   borderRadius: 100,
-                  borderWidth: 1,
-                  borderColor: theme.colors.bordercolor,
-                  height: 36,
-                  paddingHorizontal: 10,
                 }}
               >
-                <TouchableOpacity
-                  disabled={zoomLevel === MAX_ZOOM || isLocked === true}
-                  style={{ padding: 8 }}
-                  onPress={handleZoomIn}
-                >
-                  <FontAwesome6
-                    iconStyle="solid"
-                    name="plus"
-                    size={12}
-                    disabled={zoomLevel === MAX_ZOOM || isLocked === true}
-                    color={
-                      zoomLevel === MAX_ZOOM || isLocked === true
-                      ? theme.colors.inputborder
-                      : theme.colors.iconsecondary
-                    }
-                  />
-                </TouchableOpacity>
+                <FontAwesome6
+                  iconStyle="solid"
+                  name="xmark"
+                  size={12}
+                  color={theme.colors.title}
+                />
+              </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={{ padding: 8 }}
-                  onPress={handleZoomOut}
-                  disabled={zoomLevel === MIN_ZOOM || isLocked === true}
-                >
-                  <FontAwesome6
-                    iconStyle="solid"
-                    name="minus"
-                    size={12}
-                    disabled={zoomLevel === MIN_ZOOM || isLocked === true}
-                    color={
-                      zoomLevel === MIN_ZOOM || isLocked === true
-                      ? theme.colors.inputborder
-                      : theme.colors.iconsecondary
-                    }
-                  />
-                </TouchableOpacity>
-
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 15,
+                  left: 15,
+                  right: 15,
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  pointerEvents: 'box-none',
+                }}
+              >
                 <View
                   style={{
-                    width: 1,
-                    height: 16,
-                    backgroundColor: '#333',
-                    marginHorizontal: 4,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor:
+                      mode === 'dark'
+                        ? 'rgba(26,26,26,0.8)'
+                        : 'rgba(235,235,235,0.8)',
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: theme.colors.bordercolor,
+                    height: 36,
+                    paddingHorizontal: 10,
                   }}
-                />
-
-                <TouchableOpacity style={{ padding: 8 }} onPress={toggleLock}>
-                  <FontAwesome6
-                    iconStyle="solid"
-                    name={isLocked ? 'lock' : 'lock-open'}
-                    size={12}
-                    color={isLocked ? theme.colors.title : theme.colors.title}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{ padding: 8 }}
-                  onPress={() => setFullScreen(false)}
                 >
-                  <FontAwesome6
-                    iconStyle="solid"
-                    name="compress"
-                    size={12}
-                    color={theme.colors.iconsecondary}
+                  <TouchableOpacity
+                    disabled={isZoomInDisabled}
+                    style={{ padding: 8 }}
+                    onPress={handleZoomIn}
+                  >
+                    <FontAwesome6
+                      iconStyle="solid"
+                      name="plus"
+                      size={12}
+                      disabled={isZoomInDisabled}
+                      color={
+                        isZoomInDisabled
+                          ? theme.colors.inputborder
+                          : theme.colors.iconsecondary
+                      }
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    disabled={isZoomOutDisabled}
+                    style={{ padding: 8 }}
+                    onPress={handleZoomOut}
+                  >
+                    <FontAwesome6
+                      iconStyle="solid"
+                      name="minus"
+                      size={12}
+                      disabled={isZoomOutDisabled}
+                      color={
+                        isZoomOutDisabled
+                          ? theme.colors.inputborder
+                          : theme.colors.iconsecondary
+                      }
+                    />
+                  </TouchableOpacity>
+
+                  <View
+                    style={{
+                      width: 1,
+                      height: 16,
+                      backgroundColor: '#333',
+                      marginHorizontal: 4,
+                    }}
                   />
-                </TouchableOpacity>
+
+                  <TouchableOpacity style={{ padding: 8 }} onPress={toggleLock}>
+                    <FontAwesome6
+                      iconStyle="solid"
+                      name={isLocked ? 'lock' : 'lock-open'}
+                      size={12}
+                      color={isLocked ? theme.colors.title : theme.colors.title}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={{ padding: 8 }}
+                    onPress={() => setFullScreen(false)}
+                  >
+                    <FontAwesome6
+                      iconStyle="solid"
+                      name="expand"
+                      size={12}
+                      color={theme.colors.iconsecondary}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
-        </View>
+        </GestureHandlerRootView>
       </Modal>
     </>
   );
